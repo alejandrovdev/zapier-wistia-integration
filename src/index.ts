@@ -1,9 +1,9 @@
-import zapier, { defineApp } from 'zapier-platform-core';
+import zapier, { defineApp } from "zapier-platform-core";
 
-import packageJson from '../package.json' with { type: 'json' };
+import packageJson from "../package.json" with { type: "json" };
 
-import authentication from './authentication.js';
-import { befores, afters } from './middleware.js';
+import authentication from "./authentication.js";
+import { afters, befores } from "./middleware.js";
 
 export default defineApp({
   version: packageJson.version,
