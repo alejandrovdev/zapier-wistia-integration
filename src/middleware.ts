@@ -17,6 +17,22 @@ const handleBadResponses = (response, z: ZObject) => {
     );
   }
 
+  if (response.status === 403) {
+    throw new z.errors.Error(
+      "Your API token does not have permission for this action. Ensure it has read/write access.",
+      "Forbidden",
+      response.status,
+    );
+  }
+
+  if (response.status === 404) {
+    throw new z.errors.Error(
+      "The requested resource was not found in Wistia. It may have been deleted.",
+      "NotFound",
+      response.status,
+    );
+  }
+
   return response;
 };
 
