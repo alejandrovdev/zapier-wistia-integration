@@ -53,3 +53,20 @@ zapier-platform invoke create update_media --inputData '{"hashed_id":"MEDIA_HASH
 # Run unit tests
 pnpm test
 ```
+
+## Deployment
+
+```bash
+zapier-platform validate       # Must show 0 errors
+zapier-platform register "Wistia Integration"  # First time only
+zapier-platform push           # Deploy to Zapier
+```
+
+### Testing in the Zap Editor
+
+After pushing, go to [zapier.com](https://zapier.com/app/zaps) and create a new Zap:
+
+1. **Connect your account** — Search for "Wistia Integration" → enter your API token → test the connection. It should display your account name.
+2. **Test the trigger** — Choose "New Media" as the event → optionally select a project from the dropdown → click "Test trigger". It should return your Wistia media.
+3. **Test the action** — Add a second step → choose "Update Media" → select a media from the dropdown → enter a new name → click "Test action". It should return the updated media.
+4. **Verify in Wistia** — Open your Wistia dashboard and confirm the media name was updated.
