@@ -3,6 +3,7 @@ import zapier, { defineApp } from "zapier-platform-core";
 import packageJson from "../package.json" with { type: "json" };
 
 import authentication from "./authentication.js";
+import updateMedia from "./creates/update_media.js";
 import { afters, befores } from "./middleware.js";
 import newMedia from "./triggers/new_media.js";
 import projectList from "./triggers/project_list.js";
@@ -21,6 +22,7 @@ export default defineApp({
     [projectList.key]: projectList,
   },
 
-  // Add your creates here for them to show up!
-  creates: {},
+  creates: {
+    [updateMedia.key]: updateMedia,
+  },
 });
