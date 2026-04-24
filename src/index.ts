@@ -4,6 +4,8 @@ import packageJson from "../package.json" with { type: "json" };
 
 import authentication from "./authentication.js";
 import { afters, befores } from "./middleware.js";
+import newMedia from "./triggers/new_media.js";
+import projectList from "./triggers/project_list.js";
 
 export default defineApp({
   version: packageJson.version,
@@ -14,7 +16,10 @@ export default defineApp({
   afterResponse: [...afters],
 
   // Add your triggers here for them to show up!
-  triggers: {},
+  triggers: {
+    [newMedia.key]: newMedia,
+    [projectList.key]: projectList,
+  },
 
   // Add your creates here for them to show up!
   creates: {},
