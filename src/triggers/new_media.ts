@@ -1,4 +1,9 @@
-import { defineInputFields, defineTrigger } from "zapier-platform-core";
+import {
+  defineInputFields,
+  defineTrigger,
+  type Bundle,
+  type ZObject,
+} from "zapier-platform-core";
 import { fetchMedias } from "../utils/client.js";
 
 const inputFields = defineInputFields([
@@ -12,6 +17,17 @@ const inputFields = defineInputFields([
   },
 ]);
 
+export const perform = async (z: ZObject, bundle: Bundle) => {
+  const medias = await fetchMedias(z);
+  const projectId = bundle.inputData?.project_id;
+
+  const filtered = projectId
+    ? medias.filter((media) => media.project?.hashed_id === projectId)
+    : medias;
+
+  return filtered.map((m) => ({ ...m, id: String(m.id) }));
+};
+
 export default defineTrigger({
   key: "new_media",
   noun: "Media",
@@ -22,16 +38,7 @@ export default defineTrigger({
   operation: {
     type: "polling",
     inputFields,
-    perform: async (z, bundle) => {
-      const medias = await fetchMedias(z);
-
-      const projectId = bundle.inputData?.project_id;
-      const filtered = projectId
-        ? medias.filter((media) => media.project?.hashed_id === projectId)
-        : medias;
-
-      return filtered.map((m) => ({ ...m, id: String(m.id) }));
-    },
+    perform,
     sample: {
       id: "1",
       hashed_id: "abc123def",

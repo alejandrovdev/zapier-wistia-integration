@@ -1,5 +1,11 @@
-import { defineTrigger } from "zapier-platform-core";
+import { defineTrigger, type ZObject } from "zapier-platform-core";
 import { fetchProjects } from "../utils/client.js";
+
+export const perform = async (z: ZObject) => {
+  const projects = await fetchProjects(z);
+
+  return projects.map((p) => ({ ...p, id: String(p.id) }));
+};
 
 export default defineTrigger({
   key: "project_list",
@@ -11,10 +17,7 @@ export default defineTrigger({
   },
   operation: {
     type: "polling",
-    perform: async (z) => {
-      const projects = await fetchProjects(z);
-      return projects.map((p) => ({ ...p, id: String(p.id) }));
-    },
+    perform,
     sample: {
       id: "1",
       hashedId: "abc123def",

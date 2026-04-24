@@ -1,4 +1,9 @@
-import { defineCreate, defineInputFields } from "zapier-platform-core";
+import {
+  defineCreate,
+  defineInputFields,
+  type Bundle,
+  type ZObject,
+} from "zapier-platform-core";
 import { updateMedia } from "../utils/client.js";
 
 const inputFields = defineInputFields([
@@ -26,6 +31,34 @@ const inputFields = defineInputFields([
   },
 ]);
 
+export const perform = async (
+  z: ZObject,
+  bundle: Bundle<Record<string, string>>,
+) => {
+  const { hashed_id, name, description } = bundle.inputData;
+
+  if (!hashed_id) {
+    throw new z.errors.Error("Media ID is required.", "InvalidData", 400);
+  }
+
+  if (!name && !description) {
+    throw new z.errors.Error(
+      "Provide at least one of Name or Description to update.",
+      "InvalidData",
+      400,
+    );
+  }
+
+  const data: { name?: string; description?: string } = {};
+
+  if (name) data.name = name;
+  if (description) data.description = description;
+
+  const media = await updateMedia(z, hashed_id, data);
+
+  return { ...media, id: String(media.id) };
+};
+
 export default defineCreate({
   key: "update_media",
   noun: "Media",
@@ -36,26 +69,7 @@ export default defineCreate({
   },
   operation: {
     inputFields,
-    perform: async (z, bundle) => {
-      const { hashed_id, name, description } = bundle.inputData;
-
-      if (!name && !description) {
-        throw new z.errors.Error(
-          "Provide at least one of Name or Description to update.",
-          "InvalidData",
-          400,
-        );
-      }
-
-      const data: { name?: string; description?: string } = {};
-
-      if (name) data.name = name;
-      if (description) data.description = description;
-
-      const media = await updateMedia(z, hashed_id, data);
-
-      return { ...media, id: String(media.id) };
-    },
+    perform,
     sample: {
       id: "1",
       hashed_id: "abc123def",
