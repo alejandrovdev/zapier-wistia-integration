@@ -41,6 +41,15 @@ zapier-platform invoke trigger new_media --non-interactive
 zapier-platform invoke trigger project_list --non-interactive
 zapier-platform invoke trigger new_media --inputData '{"project_id":"YOUR_PROJECT_HASHED_ID"}' --non-interactive
 
+# Test action (update media name)
+zapier-platform invoke create update_media --inputData '{"hashed_id":"MEDIA_HASHED_ID","name":"New Name"}' --non-interactive
+
+# Test action (update media description)
+zapier-platform invoke create update_media --inputData '{"hashed_id":"MEDIA_HASHED_ID","description":"New description"}' --non-interactive
+
+# Test action validation (should fail — no name or description)
+zapier-platform invoke create update_media --inputData '{"hashed_id":"MEDIA_HASHED_ID"}' --non-interactive
+
 # Run unit tests
 pnpm test
 ```
