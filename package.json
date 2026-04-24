@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Zapier integration for the Wistia video platform",
   "scripts": {
-    "test": "npm run build && vitest --run",
+    "test": "npm run build && set -a && . ./.env && vitest --run",
     "clean": "rimraf ./dist ./build",
     "build": "npm run clean && tsc",
     "dev": "npm run build -- --watch",
