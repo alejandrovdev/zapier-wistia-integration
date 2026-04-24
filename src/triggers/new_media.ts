@@ -8,7 +8,7 @@ const inputFields = defineInputFields([
     type: "string",
     required: false,
     helpText: "Optionally filter new media to a specific Wistia project.",
-    dynamic: "project_list.hashed_id.name",
+    dynamic: "project_list.hashedId.name",
   },
 ]);
 

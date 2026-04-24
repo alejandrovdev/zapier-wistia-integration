@@ -12,7 +12,7 @@ export interface WistiaAccount {
 
 export interface WistiaProject {
   id: number;
-  hashed_id: string;
+  hashedId: string;
   name: string;
   mediaCount: number;
   created: string;
