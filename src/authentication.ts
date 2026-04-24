@@ -1,12 +1,12 @@
 import type { Authentication, ZObject } from "zapier-platform-core";
+import { WISTIA_API } from "./utils/client.js";
 
 // You want to make a request to an endpoint that is either specifically designed
 // to test auth, or one that every user will have access to. eg: `/me`.
 // By returning the entire request object, you have access to the request and
 // response data for testing purposes. Your connection label can access any data
 // from the returned response using the `json.` prefix. eg: `{{json.username}}`.
-const test = (z: ZObject) =>
-  z.request({ url: "https://api.wistia.com/v1/account.json" });
+const test = (z: ZObject) => z.request({ url: `${WISTIA_API}/account.json` });
 
 export default {
   // "custom" is the catch-all auth type. The user supplies some info and Zapier can
